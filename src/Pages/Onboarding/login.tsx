@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField } from '../../Components/Textfield';
 import "../CSS/login.css";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,11 @@ const Login: React.FC = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         console.log('Login successful:', data);
+
+        // Navigate to home page after successful login
+        setTimeout(() => {
+          navigate('/home');
+        }, 1000);
       } else {
         setError(data.message || 'Login failed');
       }
@@ -92,7 +99,7 @@ const Login: React.FC = () => {
           </button>
 
           <p className="signup-link">
-            Don't have an account? <a href="signup">Sign Up</a>
+            Don't have an account? <span onClick={() => navigate('/signup')} style={{color: '#007bff', cursor: 'pointer', textDecoration: 'underline'}}>Sign Up</span>
           </p>
         </form>
 

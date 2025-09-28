@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField } from '../../Components/Textfield';
 import "../CSS/login.css";
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -111,7 +113,7 @@ const Signup: React.FC = () => {
         </form>
 
         <div className="login-footer">
-          <a href="/">Already have an account? Sign in</a>
+          <span onClick={() => navigate('/')} style={{color: '#007bff', cursor: 'pointer', textDecoration: 'underline'}}>Already have an account? Sign in</span>
         </div>
       </div>
     </div>
