@@ -6,12 +6,40 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: Implement login logic
-    console.log('Login attempt:', { email, password });
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('Login successful!');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        console.log('Login successful:', data);
+      } else {
+        setError(data.message || 'Login failed');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -23,6 +51,18 @@ const Login: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="success-message">
+              {success}
+            </div>
+          )}
+
           <TextField
             type="email"
             id="email"
@@ -51,8 +91,8 @@ const Login: React.FC = () => {
             {isLoading ? 'Signing in...' : 'Sign In'}
           </button>
 
-          <p style={{textAlign: 'center', marginTop: '16px', color: '#666'}}>
-            Don't have an account? <a href="signup" style={{color: '#007bff', textDecoration: 'none'}}>Sign Up</a>
+          <p className="signup-link">
+            Don't have an account? <a href="signup">Sign Up</a>
           </p>
         </form>
 
