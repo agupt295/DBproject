@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import { TextField } from '../../Components/Textfield';
 import "../CSS/login.css";
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: Implement login logic
-    console.log('Login attempt:', { email, password });
+
+    // TODO: Implement signup logic
+    console.log('Signup attempt:', { email, password, confirmPassword });
+
+    setIsLoading(false);
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1>Welcome Back</h1>
-          <p>Please sign in to your account</p>
+          <h1>Create Account</h1>
+          <p>Please fill in your information to sign up</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -43,25 +47,31 @@ const Login: React.FC = () => {
             required
           />
 
+          <TextField
+            type="password"
+            id="confirmPassword"
+            label="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm your password"
+            required
+          />
+
           <button
             type="submit"
             className="login-button"
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? 'Creating Account...' : 'Sign Up'}
           </button>
-
-          <p style={{textAlign: 'center', marginTop: '16px', color: '#666'}}>
-            Don't have an account? <a href="signup" style={{color: '#007bff', textDecoration: 'none'}}>Sign Up</a>
-          </p>
         </form>
 
         <div className="login-footer">
-          <a href="#forgot-password">Forgot your password?</a>
+          <a href="/">Already have an account? Sign in</a>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
