@@ -81,6 +81,16 @@ body {
   background-color: #f5f5f5;
 }
 
+.nav-item.active {
+  background-color: #f0fdf9;
+  color: #00AA7F;
+  border-left: 3px solid #00D4AA;
+  padding-left: 13px; /* Adjusted to account for border */
+}
+
+.nav-item.active .nav-icon {
+  color: #00AA7F;
+}
 .nav-icon {
   width: 20px;
   height: 20px;

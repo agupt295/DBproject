@@ -1,9 +1,111 @@
 import React, { useState } from 'react';
 import '../CSS/mainPage.css'
 import JobListings from './Entities/JobListings';
+import Profile from './Entities/Profile';
 
 const MainPage: React.FC = () => {
-  const [activeNav, setActiveNav] = useState<string>('');
+  const [activeNav, setActiveNav] = useState<string>('jobs');
+
+  const renderContent = () => {
+    switch (activeNav) {
+      case 'jobs':
+        return (
+          <>
+            {/* Top Navigation Bar */}
+            <header className="top-bar">
+              <div className="top-bar-left">
+                <h1 className="page-title">JOBS</h1>
+                <button className="tab-button active">Recommended</button>
+                <button className="tab-button">
+                  Liked <span className="tab-badge">0</span>
+                </button>
+                <button className="tab-button">
+                  Applied <span className="tab-badge">10</span>
+                </button>
+                <button className="tab-button">
+                  External <span className="tab-badge">0</span>
+                </button>
+              </div>
+            </header>
+
+            {/* Filter Bar */}
+            <div className="filter-bar">
+              <div className="filter-chips">
+                <button className="filter-chip">Backend Engineer</button>
+                <button className="filter-chip">Frontend Software Engineer</button>
+                <button className="filter-chip">Within the US</button>
+                <button className="filter-chip">Full-time</button>
+                <button className="filter-chip">Onsite</button>
+                <button className="filter-chip">Remote</button>
+              </div>
+              <div className="filter-actions">
+                <button className="help-button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </button>
+                <button className="recommended-dropdown">
+                  Recommended ▼
+                </button>
+              </div>
+            </div>
+
+            <div className="filter-bar-secondary">
+              <div className="filter-chips">
+                <button className="filter-chip">Hybrid</button>
+                <button className="filter-chip">Entry Level</button>
+                <button className="filter-chip">Intern/New Grad</button>
+                <button className="filter-chip">0-1 Years</button>
+                <button className="filter-chip">+6</button>
+                <button className="filter-edit-button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  Edit Filters
+                </button>
+              </div>
+            </div>
+
+            {/* Job Listings */}
+            <div className="job-listings">
+              <JobListings />
+            </div>
+          </>
+        );
+
+      case 'cluster':
+        return (
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <h2>Cluster View</h2>
+            <p>Cluster view content coming soon...</p>
+          </div>
+        );
+
+      case 'profile':
+        return (
+          <Profile/>
+        );
+
+      case 'agent':
+        return (
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <h2>AI Agent</h2>
+            <p>AI Agent content coming soon...</p>
+          </div>
+        );
+
+      default:
+        return (
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <h2>Welcome to Jobright</h2>
+            <p>Select an option from the sidebar to get started</p>
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="jobright-container">
@@ -27,13 +129,11 @@ const MainPage: React.FC = () => {
             <span>Jobs</span>
           </a>
 
-          <a href="#" className={`nav-item ${activeNav === 'resume' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveNav('resume'); }}>
+          <a href="#" className={`nav-item ${activeNav === 'cluster' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveNav('cluster'); }}>
             <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
             </svg>
-            <span>Resume</span>
-            <span className="badge-check">✓</span>
+            <span>Cluster</span>
           </a>
 
           <a href="#" className={`nav-item ${activeNav === 'profile' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveNav('profile'); }}>
@@ -108,77 +208,7 @@ const MainPage: React.FC = () => {
 
       {/* Main Content */}
       <main className="main-content">
-        {activeNav === 'jobs' ? (
-          <>
-            {/* Top Navigation Bar */}
-            <header className="top-bar">
-              <div className="top-bar-left">
-                <h1 className="page-title">JOBS</h1>
-                <button className="tab-button active">Recommended</button>
-                <button className="tab-button">
-                  Liked <span className="tab-badge">0</span>
-                </button>
-                <button className="tab-button">
-                  Applied <span className="tab-badge">10</span>
-                </button>
-                <button className="tab-button">
-                  External <span className="tab-badge">0</span>
-                </button>
-              </div>
-            </header>
-
-            {/* Filter Bar */}
-            <div className="filter-bar">
-              <div className="filter-chips">
-                <button className="filter-chip">Backend Engineer</button>
-                <button className="filter-chip">Frontend Software Engineer</button>
-                <button className="filter-chip">Within the US</button>
-                <button className="filter-chip">Full-time</button>
-                <button className="filter-chip">Onsite</button>
-                <button className="filter-chip">Remote</button>
-              </div>
-              <div className="filter-actions">
-                <button className="help-button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                </button>
-                <button className="recommended-dropdown">
-                  Recommended ▼
-                </button>
-              </div>
-            </div>
-
-            <div className="filter-bar-secondary">
-              <div className="filter-chips">
-                <button className="filter-chip">Hybrid</button>
-                <button className="filter-chip">Entry Level</button>
-                <button className="filter-chip">Intern/New Grad</button>
-                <button className="filter-chip">0-1 Years</button>
-                <button className="filter-chip">+6</button>
-                <button className="filter-edit-button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                  </svg>
-                  Edit Filters
-                </button>
-              </div>
-            </div>
-
-            {/* Job Listings */}
-            <div className="job-listings">
-              <JobListings />
-            </div>
-          </>
-        ) : (
-          <div style={{ padding: '40px', textAlign: 'center' }}>
-            <h2>Welcome to Jobright</h2>
-            <p>Select an option from the sidebar to get started</p>
-          </div>
-        )}
+        {renderContent()}
       </main>
     </div>
   );

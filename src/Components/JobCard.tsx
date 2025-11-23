@@ -52,6 +52,8 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
 
             <h3 className="job-title">{job.job_title}</h3>
 
+            <br/>
+
             <div className="company-info">
               <span className="company-name">{companyName}</span>
               <span className="company-divider">/</span>
