@@ -107,14 +107,6 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         </div>
 
         <div className="job-card-right">
-          <button className="more-button">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="12" cy="5" r="2"/>
-              <circle cx="12" cy="12" r="2"/>
-              <circle cx="12" cy="19" r="2"/>
-            </svg>
-          </button>
-
           <div className="match-score">
             <div className="match-circle">
               <svg viewBox="0 0 120 120">

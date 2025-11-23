@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/auth.css'
 
-interface LoginProps {
-  onSwitchToSignup?: () => void;
-  onLogin?: (email: string, password: string) => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onSwitchToSignup, onLogin }) => {
+const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -34,16 +31,19 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignup, onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      // Call the login handler if provided
-      if (onLogin) {
-        onLogin(email, password);
-      } else {
-        // Mock login for demo
-        console.log('Login:', { email, password, rememberMe });
-        alert('Login functionality - connect to your backend API');
-      }
+      // Mock login for demo
+      console.log('Login:', { email, password, rememberMe });
+
+      // Store mock user data
+      const mockUser = { id: 1, email: email };
+      const mockToken = 'mock-jwt-token-' + Date.now();
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+
+      // Navigate to main page
+      navigate('/main');
     }
   };
 
@@ -69,23 +69,17 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignup, onLogin }) => {
             <label htmlFor="email" className="form-label">
               Email address
             </label>
-            <div className="input-wrapper">
-              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              <input
-                type="email"
-                id="email"
-                className={`form-input ${errors.email ? 'error' : ''}`}
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (errors.email) setErrors({ ...errors, email: undefined });
-                }}
-              />
-            </div>
+            <input
+              type="email"
+              id="email"
+              className={`form-input ${errors.email ? 'error' : ''}`}
+              placeholder="your.email@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email) setErrors({ ...errors, email: undefined });
+              }}
+            />
             {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
 
@@ -94,10 +88,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignup, onLogin }) => {
               Password
             </label>
             <div className="input-wrapper">
-              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
@@ -181,7 +171,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignup, onLogin }) => {
         <div className="auth-footer">
           <p>
             Don't have an account?{' '}
-            <button onClick={onSwitchToSignup} className="switch-link">
+            <button onClick={() => navigate('/signup')} className="switch-link">
               Sign up
             </button>
           </p>
