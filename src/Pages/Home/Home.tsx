@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AlertBox from '../Components/AlertBox';
+import AlertBox from '../../Components/AlertBox';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -20,43 +20,20 @@ const Home: React.FC = () => {
     setShowDeleteAlert(true);
   };
 
-  const confirmDeleteAccount = async () => {
+  const confirmDeleteAccount = () => {
     setIsDeleting(true);
 
-    try {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-      const userObj = user ? JSON.parse(user) : null;
+    // Simulate account deletion
+    setTimeout(() => {
+      // Account deleted successfully
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      console.log('Account deleted successfully');
+      navigate('/');
 
-      if (!token || !userObj) {
-        throw new Error('No user authentication found');
-      }
-
-      const response = await fetch('http://localhost:8000/api/auth/delete-account', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ userId: userObj.id }),
-      });
-
-      if (response.ok) {
-        // Account deleted successfully
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/');
-      } else {
-        const data = await response.json();
-        alert('Failed to delete account: ' + (data.message || 'Unknown error'));
-      }
-    } catch (error) {
-      console.error('Delete account error:', error);
-      alert('Network error. Please try again.');
-    } finally {
       setIsDeleting(false);
       setShowDeleteAlert(false);
-    }
+    }, 800);
   };
 
   const cancelDeleteAccount = () => {

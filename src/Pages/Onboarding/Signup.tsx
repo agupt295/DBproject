@@ -12,7 +12,7 @@ const Signup: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -25,31 +25,24 @@ const Signup: React.FC = () => {
       return;
     }
 
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess('Account created successfully! You can now sign in.');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-      } else {
-        setError(data.message || 'Registration failed');
+    // Simulate signup process
+    setTimeout(() => {
+      // Mock validation
+      if (!email || !password) {
+        setError('Please fill in all fields');
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      setError('Network error. Please try again.');
-      console.error('Registration error:', error);
-    } finally {
+
+      // Mock successful signup
+      setSuccess('Account created successfully! You can now sign in.');
+      console.log('Registration successful:', { email });
+
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   return (

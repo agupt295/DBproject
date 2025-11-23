@@ -11,42 +11,37 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
     setSuccess('');
 
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess('Login successful!');
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        console.log('Login successful:', data);
-
-        // Navigate to home page after successful login
-        setTimeout(() => {
-          navigate('/home');
-        }, 1000);
-      } else {
-        setError(data.message || 'Login failed');
+    // Simulate login process
+    setTimeout(() => {
+      // Mock validation
+      if (!email || !password) {
+        setError('Please enter email and password');
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      setError('Network error. Please try again.');
-      console.error('Login error:', error);
-    } finally {
+
+      // Mock successful login
+      setSuccess('Login successful!');
+      const mockUser = { id: 1, email: email };
+      const mockToken = 'mock-jwt-token-' + Date.now();
+
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      console.log('Login successful:', mockUser);
+
+      // Navigate to home page after successful login
+      setTimeout(() => {
+        navigate('/main');
+      }, 1000);
+
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   return (
