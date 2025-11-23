@@ -29,7 +29,7 @@ function App() {
           />
           <Route path="/main"
             element={
-              <ProtectedRoute><MainPage/></ProtectedRoute>
+              <PublicRoute><MainPage/></PublicRoute>
             }
           />
         </Routes>
